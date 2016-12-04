@@ -17,13 +17,11 @@
 	- [Introduction - Django Web Development with Python by sendtdex] (https://www.youtube.com/watch?v=FNQxxpM1yOs&list=PLQVvvaa0QuDeA05ZouE4OzDYLHY-XH-Nd)
 				
 ######Basic Idea
-'''
 There is a project called 'IVMNM' consist of apps : login and dasboard.
 At the beginning, we will execute 'django-admin startproject <project_name>' . In this case 'django-admin startproject IVMNM' and folder IVMNM appears.
 Next, we want to build our apps.
 	- 'django-admin startapp login' -> folder login is created.
 	- 'django-admin startapp dashboard' -> folder dashboard is created.
-'''
 				
 ######WHY DJANGO?
 * Because it is python, native ubuntu interpreter
