@@ -21,8 +21,8 @@
 There is a project called 'IVMNM' consist of apps : login and dasboard.
 At the beginning, we will execute 'django-admin startproject <project_name>' . In this case 'django-admin startproject IVMNM' and folder IVMNM appears.
 Next, we want to build our apps.
-	'django-admin startapp login' -> folder login is created.
-	'django-admin startapp dashboard' -> folder dashboard is created.
+	- 'django-admin startapp login' -> folder login is created.
+	- 'django-admin startapp dashboard' -> folder dashboard is created.
 '''
 				
 ######WHY DJANGO?
