@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 
-
 def index(req) :
 
 	if (req.user.is_authenticated) :
@@ -18,7 +17,7 @@ def index(req) :
 			login(req, user)
 			return redirect('/dashboard')
 		else:
-			return render(req, 'login/index.html', { 'error' : 'username or password is incorrect, try again.'})
+			return render(req, 'login/index.html', { 'error' : 'Username or password is incorrect, try again.'})
 
 	return render(req, 'login/index.html', None)
 
