@@ -124,10 +124,14 @@
                                 <img src={{ meal.imgurl }} alt="">
                                 <div class="card-meals-content">
                                     <h3>{{ meal.name }}</h3>
-                                    <h5>{{ meal.calorie }}</h5>
+                                    <h5>{{ meal.calorie }} calories</h5>
                                 </div>
                                 <div class="card-meals-button">
-                                    <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
+                                    <form action="" method="POST"> {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}" />
+                                        <input type="hidden" name="meal_id" value="{{ meal.id }}" />
+                                        <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
