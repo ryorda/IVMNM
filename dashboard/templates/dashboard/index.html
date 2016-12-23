@@ -21,18 +21,15 @@
     <!--  Light Bootstrap Table core CSS    -->
     <link href="/static/dashboard/css/light-bootstrap-dashboard.css" rel="stylesheet" />
 
+    <!--  Custom Style IVMNM CSS    -->
+    <link href="/static/dashboard/css/ivmnm.css" rel="stylesheet" />
+
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="/static/dashboard/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <style>
-        .btn-pick {
-            visibility: hidden;
-        }
-        
-        tr:hover .btn-pick {
-            visibility: visible;
-        }
+
     </style>
 </head>
 
@@ -117,35 +114,57 @@
                                     <h4 class="title">Today's Menu</h4>
                                     <p class="category">The list of nutritionous meals</p>
                                 </div>
-                                <div class="content table-responsive table-full-width">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <th>No.</th>
-                                            <th>Meal</th>
-                                            <th>Calories</th>
-                                            <th></th>
-                                        </thead>
-                                        <tbody>
-                                            {% if list_of_meal %} {% for meal in list_of_meal %}
-                                            <tr>
-                                                <td>{{ meal.id }}</td>
-                                                <td>{{ meal.name }}</td>
-                                                <td>{{ meal.calorie }}</td>
-                                                <td>
-                                                    <form action="" method="POST"> {% csrf_token %}
-                                                        <input type="hidden" name="user_id" value="{{ user.id }}" />
-                                                        <input type="hidden" name="meal_id" value="{{ meal.id }}" />
-                                                        <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            {% endfor %} {% endif %}
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        {% if list_of_meal %} {% for meal in list_of_meal %}
+                        <div class="col-md-4">
+                            <div class="card card-meals">
+                                <img src={{ meal.imgurl }} alt="">
+                                <div class="card-meals-content">
+                                    <h3>{{ meal.name }}</h3>
+                                    <h5>{{ meal.calorie }}</h5>
+                                </div>
+                                <div class="card-meals-button">
+                                    <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:3 %}
+                    </div>
+                    <div class="row">
+                        {% endif %}
+                        {% endfor %} {% endif %}
+                    </div>
+
+                    
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Meal</th>
+                                <th>Calories</th>
+                                <th>URL</th>
+                            </thead>
+                            <tbody>
+                                {% if list_of_meal %} {% for meal in list_of_meal %}
+                                <tr>
+                                    <td>{{ meal.name }}</td>
+                                    <td>{{ meal.calorie }}</td>
+                                    <td>{{ meal.imgurl }}</td>
+                                    <td>
+                                        <form action="" method="POST"> {% csrf_token %}
+                                            <input type="hidden" name="user_id" value="{{ user.id }}" />
+                                            <input type="hidden" name="meal_id" value="{{ meal.id }}" />
+                                            <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %} {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
 
