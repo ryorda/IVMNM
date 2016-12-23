@@ -28,9 +28,6 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="/static/dashboard/css/pe-icon-7-stroke.css" rel="stylesheet" />
-    <style>
-
-    </style>
 </head>
 
 <body>
@@ -130,7 +127,7 @@
                                     <form action="" method="POST"> {% csrf_token %}
                                         <input type="hidden" name="user_id" value="{{ user.id }}" />
                                         <input type="hidden" name="meal_id" value="{{ meal.id }}" />
-                                        <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
+                                        <button type="submit" class="btn btn-primary btn-sm btn-fill btn-pick">PICK</button>
                                     </form>
                                 </div>
                             </div>
@@ -138,37 +135,8 @@
                         {% if forloop.counter|divisibleby:3 %}
                     </div>
                     <div class="row">
-                        {% endif %}
-                        {% endfor %} {% endif %}
+                        {% endif %} {% endfor %} {% endif %}
                     </div>
-
-                    
-                    <div class="content table-responsive table-full-width">
-                        <table class="table table-hover">
-                            <thead>
-                                <th>Meal</th>
-                                <th>Calories</th>
-                                <th>URL</th>
-                            </thead>
-                            <tbody>
-                                {% if list_of_meal %} {% for meal in list_of_meal %}
-                                <tr>
-                                    <td>{{ meal.name }}</td>
-                                    <td>{{ meal.calorie }}</td>
-                                    <td>{{ meal.imgurl }}</td>
-                                    <td>
-                                        <form action="" method="POST"> {% csrf_token %}
-                                            <input type="hidden" name="user_id" value="{{ user.id }}" />
-                                            <input type="hidden" name="meal_id" value="{{ meal.id }}" />
-                                            <button type="submit" class="btn btn-sm btn-fill btn-pick">PICK</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %} {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-
                 </div>
             </div>
 
