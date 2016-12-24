@@ -5,7 +5,7 @@ from django.utils.timezone import now
 class Meal(models.Model) :
 	name	= models.CharField(max_length=1024)
 	calorie	= models.FloatField()
-	imgurl  = models.URLField()
+	imgurl  = models.CharField(max_length=1024)
 	
 	def __str__(self) :
 		return self.name

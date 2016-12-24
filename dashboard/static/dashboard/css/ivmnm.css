@@ -1,41 +1,36 @@
 .card .header {
-	padding-bottom: 18px;
+    padding-bottom: 18px;
 }
 
 .card-meals {
-	min-height: 380px;
+    min-height: 380px;
 }
 
 .card-meals img {
-	max-height: 100%;
-	max-width: 100%;
-	background-size: cover;
+    max-height: 100%;
+    max-width: 100%;
+    background-size: cover;
 }
 
 .card-meals-content {
-	padding-left: 16px;
-	padding-right: 16px;
-	min-height: 80px;
+    padding-left: 16px;
+    padding-right: 16px;
+    min-height: 80px;
 }
 
 .card-meals-content h3 {
-	font-size: 22px;
-	margin-top: 16px;
-	margin-bottom: 0px;
+    font-size: 22px;
+    margin-top: 16px;
+    margin-bottom: 0px;
 }
 
 .card-meals-content h5 {
-	margin-top: 8px;
-	color: #909090;
+    margin-top: 8px;
+    color: #909090;
 }
 
 .card-meals-button {
-	padding-left: 16px;
-	padding-bottom: 20px;
-	padding-right: 16px;	
-}
-
-.card-meals-button .btn {
-	background-color: #1F77D0;
-	border-color: #1F77D0;
+    padding-left: 16px;
+    padding-bottom: 20px;
+    padding-right: 16px;
 }

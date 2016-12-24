@@ -9,7 +9,8 @@ import os
 
 @login_required(login_url='/login')
 def index(req) :
-	if (req.method == 'POST') :
+	if (req.method == 'POST' and req.POST.get('gpio_pin')) :
+		api_rpi_gpio(req.POST['gpio_pin'])
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
 		history = History(user=user, meal=meal)
@@ -33,3 +34,11 @@ def history(req) :
 def logout(req) :
 	auth.logout(req)
 	return redirect('/login')
+
+def api_rpi_gpio(pin):
+	GPIO.setmode(GPIO.BOARD)
+	GPIO.setup(pin, GPIO.OUT)
+	GPIO.output(pin, GPIO.HIGH)
+	time.sleep(1)
+	GPIO.output(pin, GPIO.LOW)
+	GPIO.cleanup()
