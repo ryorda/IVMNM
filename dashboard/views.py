@@ -48,17 +48,17 @@ def api_rpi_gpio(pin):
 	GPIO.setmode(GPIO.BOARD)
 	#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
 	led_green_pin = GPIO_PIN_BOARD[8]
-	led_red_pin = GPIO_PIN_BOARD[9]
-	GPIO.setup(pin, GPIO.OUT)
+	led_red_pin = GPIO_PIN_BOARD[0]
+	#GPIO.setup(pin, GPIO.OUT)
 	GPIO.setup(led_green_pin, GPIO.OUT)
 	GPIO.setup(led_red_pin, GPIO.OUT)
 
 	GPIO.output(led_green_pin, GPIO.LOW)
 	GPIO.output(led_red_pin, GPIO.HIGH)
-	GPIO.output(pin, GPIO.HIGH)
+	#GPIO.output(pin, GPIO.HIGH)
 	time.sleep(1)
 	GPIO.output(led_red_pin, GPIO.LOW)
 	GPIO.output(led_green_pin, GPIO.HIGH)
-	GPIO.output(pin, GPIO.LOW)
+	#GPIO.output(pin, GPIO.LOW)
 
 	GPIO.cleanup()
