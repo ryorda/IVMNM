@@ -19,7 +19,6 @@ GPIO_PIN_BOARD	= [4, 17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 2
 def index(req) :
 	if (req.method == 'POST' and req.POST.get('gpio_pin')) :
 		api_rpi_gpio(GPIO_PIN_BOARD[int(req.POST['gpio_pin'])])
-
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
 		history = History(user=user, meal=meal)
@@ -49,7 +48,7 @@ def api_rpi_gpio(pin):
 	#GPIO.setmode(GPIO.BOARD)
 	#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
 	#led_green_pin = GPIO_PIN_BOARD[8]
-	#led_red_pin = GPIO_PIN_BOARD[0]
+	#led_red_pin = GPIO_PIN_BOARD[9]
 	#GPIO.setup(pin, GPIO.OUT)
 	#GPIO.setup(led_green_pin, GPIO.OUT)
 	#GPIO.setup(led_red_pin, GPIO.OUT)
@@ -65,9 +64,18 @@ def api_rpi_gpio(pin):
 	#GPIO.cleanup()
 	#########################################################
 	os.system("echo '{0}' > /sys/class/gpio/export".format(pin))
+	os.system("echo '5' > /sys/class/gpio/export")
+	os.system("echo '6' > /sys/class/gpio/export")
+	#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
 	os.system("echo 'out' > /sys/class/gpio/gpio{0}/direction".format(pin))
 	os.system("echo '1' > /sys/class/gpio/gpio{0}/value".format(pin))
-	time.sleep(1)
+	os.system("echo 'out' > /sys/class/gpio/gpio5/direction")
+	os.system("echo '0' > /sys/class/gpio/gpio5/value")
+	os.system("echo 'out' > /sys/class/gpio/gpio6/direction")
+	os.system("echo '1' > /sys/class/gpio/gpio6/value")
+	time.sleep(3)
+	os.system("echo '0' > /sys/class/gpio/gpio6/value")
+	os.system("echo '1' > /sys/class/gpio/gpio5/value")
 	os.system("echo '0' > /sys/class/gpio/gpio{0}/value".format(pin))
 	os.system("echo 'in' > /sys/class/gpio/gpio{0}/direction".format(pin))
 	os.system("echo '{0}' > /sys/class/gpio/unexport".format(pin))
