@@ -109,7 +109,7 @@
                             <div class="card">
                                 <div class="header">
                                     <h4 class="title">Today's Menu</h4>
-                                    <p class="category">The list of nutritionous meals</p>
+                                    <p class="category">The list of nutritionous snacks</p>
                                 </div>
                             </div>
                         </div>
@@ -123,11 +123,11 @@
                                     <h3>{{ meal.name }}</h3>
                                     <h5>{{ meal.calorie }} calories</h5>
                                 </div>
-                                <div class="card-meals-button ">
-                                    <form action=" " method="POST "> {% csrf_token %}
-                                        <input type="hidden" name="user_id " value="{{ user.id }}" />
-                                        <input type="hidden" name="meal_id " value="{{ meal.id }}" />
-                                        <input type="hidden" name="meal_id " value="{{ meal.id }}" />
+                                <div class="card-meals-button">
+                                    <form action="" method="POST"> {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}" />
+                                        <input type="hidden" name="meal_id" value="{{ meal.id }}" />
+                                        <input type="hidden" name="gpio_pin" value="{{ forloop.counter0 }}" />
                                         <button type="submit" class="btn btn-primary btn-sm btn-fill btn-pick">PICK</button>
                                     </form>
                                 </div>
