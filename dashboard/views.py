@@ -9,15 +9,15 @@ import datetime
 import time
 import os
 
+######################################################
+#GPIO PIN CONFIGURATION SORTED ASC FROM LEFT TO RIGHT
+GPIO_PIN_BCM	= [7, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38, 40]
+GPIO_PIN_BOARD	= [4, 17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21]
+######################################################
+
 @login_required(login_url='/login')
 def index(req) :
 	if (req.method == 'POST' and req.POST.get('gpio_pin')) :
-
-		######################################################
-		#GPIO PIN CONFIGURATION SORTED ASC FROM LEFT TO RIGHT
-		GPIO_PIN_BCM	= [7, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38, 40]
-		GPIO_PIN_BOARD	= [4, 17, 18, 27, 22, 23, 24, 25, 05, 06, 12, 13, 19, 16, 26, 20, 21]
-		######################################################
 		api_rpi_gpio(GPIO_PIN_BOARD[int(req.POST['gpio_pin'])])
 
 		user = User.objects.get(pk=req.POST['user_id'])
