@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import History, Meal
 import django.contrib.auth as auth
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import datetime
 import time
 import os
@@ -45,20 +45,29 @@ def logout(req) :
 	return redirect('/login')
 
 def api_rpi_gpio(pin):
-	GPIO.setmode(GPIO.BOARD)
+	#If RPi.GPIO is working #################################
+	#GPIO.setmode(GPIO.BOARD)
 	#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
-	led_green_pin = GPIO_PIN_BOARD[8]
-	led_red_pin = GPIO_PIN_BOARD[0]
+	#led_green_pin = GPIO_PIN_BOARD[8]
+	#led_red_pin = GPIO_PIN_BOARD[0]
 	#GPIO.setup(pin, GPIO.OUT)
-	GPIO.setup(led_green_pin, GPIO.OUT)
-	GPIO.setup(led_red_pin, GPIO.OUT)
+	#GPIO.setup(led_green_pin, GPIO.OUT)
+	#GPIO.setup(led_red_pin, GPIO.OUT)
 
-	GPIO.output(led_green_pin, GPIO.LOW)
-	GPIO.output(led_red_pin, GPIO.HIGH)
+	#GPIO.output(led_green_pin, GPIO.LOW)
+	#GPIO.output(led_red_pin, GPIO.HIGH)
 	#GPIO.output(pin, GPIO.HIGH)
-	time.sleep(1)
-	GPIO.output(led_red_pin, GPIO.LOW)
-	GPIO.output(led_green_pin, GPIO.HIGH)
+	#time.sleep(1)
+	#GPIO.output(led_red_pin, GPIO.LOW)
+	#GPIO.output(led_green_pin, GPIO.HIGH)
 	#GPIO.output(pin, GPIO.LOW)
 
-	GPIO.cleanup()
+	#GPIO.cleanup()
+	#########################################################
+	os.system("echo '{0}' > /sys/class/gpio/export".format(pin))
+	os.system("echo 'out' > /sys/class/gpio/gpio{0}/direction".format(pin))
+	os.system("echo '1' > /sys/class/gpio/gpio{0}/value".format(pin))
+	time.sleep(1)
+	os.system("echo '0' > /sys/class/gpio/gpio{0}/value".format(pin))
+	os.system("echo 'in' > /sys/class/gpio/gpio{0}/direction".format(pin))
+	os.system("echo '{0}' > /sys/class/gpio/unexport".format(pin))
