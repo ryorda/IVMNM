@@ -26,7 +26,8 @@ def index(req) :
 		return redirect('dashboard/history')
 
 	user = req.user
-	diet_history = History.objects.filter(user=user).all()
+	yesterday = datetime.date.today() - datetime.timedelta(days=1)
+	diet_history = History.objects.filter(user=user, time__gt=yesterday).all()
 	cal_taken = 0
 	
 	for u in diet_history:
@@ -40,7 +41,8 @@ def index(req) :
 @login_required(login_url='/login')
 def user(req):
 	user = req.user
-	diet_history = History.objects.filter(user=user).all()
+	yesterday = datetime.date.today() - datetime.timedelta(days=1)
+	diet_history = History.objects.filter(user=user, time__gt=yesterday).all()
 	cal_taken = 0
 	
 	for u in diet_history:
@@ -53,7 +55,8 @@ def user(req):
 @login_required(login_url='/login')
 def history(req) :
 	user = req.user
-	diet_history = History.objects.filter(user=user).order_by('time')[::-1]
+	yesterday = datetime.date.today() - datetime.timedelta(days=1)
+	diet_history = History.objects.filter(user=user, time__gt=yesterday).order_by('time')[::-1]
 	context = {'diet_history': diet_history}
 	return render(req, 'dashboard/history.html', context)
 
