@@ -15,6 +15,9 @@ GPIO_PIN_BCM	= [7, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38, 4
 GPIO_PIN_BOARD	= [4, 17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21]
 ######################################################
 
+# Time and Date, to filter meals from today only
+yesterday = datetime.date.today() - datetime.timedelta(days=1)
+
 @login_required(login_url='/login')
 def index(req) :
 	if (req.method == 'POST' and req.POST.get('gpio_pin')) :
@@ -26,7 +29,6 @@ def index(req) :
 		return redirect('dashboard/history')
 
 	user = req.user
-	yesterday = datetime.date.today() - datetime.timedelta(days=1)
 	diet_history = History.objects.filter(user=user, time__gt=yesterday).all()
 	cal_taken = 0
 	
@@ -41,7 +43,6 @@ def index(req) :
 @login_required(login_url='/login')
 def user(req):
 	user = req.user
-	yesterday = datetime.date.today() - datetime.timedelta(days=1)
 	diet_history = History.objects.filter(user=user, time__gt=yesterday).all()
 	cal_taken = 0
 	
@@ -55,8 +56,7 @@ def user(req):
 @login_required(login_url='/login')
 def history(req) :
 	user = req.user
-	yesterday = datetime.date.today() - datetime.timedelta(days=1)
-	diet_history = History.objects.filter(user=user, time__gt=yesterday).order_by('time')[::-1]
+	diet_history = History.objects.filter(user=user).order_by('time')[::-1]
 	context = {'diet_history': diet_history}
 	return render(req, 'dashboard/history.html', context)
 
