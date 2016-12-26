@@ -25,17 +25,35 @@ def index(req) :
 		history.save()
 		return redirect('dashboard/history')
 
-	list_of_meal = Meal.objects.order_by('id')[::1]
-	context = {'list_of_meal': list_of_meal}
+	user = req.user
+	diet_history = History.objects.filter(user=user).all()
+	cal_taken = 0
+	
+	for u in diet_history:
+		cal_taken += u.meal.calorie
+
+	cal_left = 400 - cal_taken
+	list_of_meal = Meal.objects.filter(calorie__lt=cal_left).order_by('id')[::1]
+	context = {'list_of_meal': list_of_meal, 'cal_left': cal_left, 'cal_taken': cal_taken}
 	return render(req, 'dashboard/index.html', context)
 
 @login_required(login_url='/login')
-def user(req) :
-	return render(req, 'dashboard/user.html', None)
+def user(req):
+	user = req.user
+	diet_history = History.objects.filter(user=user).all()
+	cal_taken = 0
+	
+	for u in diet_history:
+		cal_taken += u.meal.calorie
+
+	cal_left = 400 - cal_taken
+	context = {'cal_taken': cal_taken, 'cal_left': cal_left}
+	return render(req, 'dashboard/user.html', context)
 	
 @login_required(login_url='/login')
 def history(req) :
-	diet_history = History.objects.order_by('time')[::-1]
+	user = req.user
+	diet_history = History.objects.filter(user=user).order_by('time')[::-1]
 	context = {'diet_history': diet_history}
 	return render(req, 'dashboard/history.html', context)
 
