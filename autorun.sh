@@ -24,4 +24,7 @@ sudo service apache2 stop
 sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf &
 sleep 2
 sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf &
+echo "5" > /sys/class/gpio/export
+echo "out" > /sys/class/gpio/gpio5/direction
+echo "1" > /sys/class/gpio/gpio5/value
 sudo python3 /home/pi/IVMNM/manage.py runserver 0.0.0.0:80
