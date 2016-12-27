@@ -34,17 +34,17 @@ def index(req) :
 			api_rpi_gpio(22)
 			flags.isRunning = False
 			api_rpi_gpio(27)
-			
+
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
 		history = History(user=user, meal=meal)
 		history.save()
-		return redirect('dashboard/history')
+		return redirect('/dashboard/history')
 
 	user = req.user
 	diet_history = History.objects.filter(user=user, time__gt=yesterday).all()
 	cal_taken = 0
-	
+
 	for u in diet_history:
 		cal_taken += u.meal.calorie
 
@@ -58,14 +58,14 @@ def user(req):
 	user = req.user
 	diet_history = History.objects.filter(user=user, time__gt=yesterday).all()
 	cal_taken = 0
-	
+
 	for u in diet_history:
 		cal_taken += u.meal.calorie
 
 	cal_left = 400 - cal_taken
 	context = {'cal_taken': cal_taken, 'cal_left': cal_left}
 	return render(req, 'dashboard/user.html', context)
-	
+
 @login_required(login_url='/login')
 def history(req) :
 	user = req.user
