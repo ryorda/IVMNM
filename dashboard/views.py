@@ -24,6 +24,17 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 def index(req) :
 	if (req.method == 'POST' and req.POST.get('gpio_pin') and not flags.isRunning) :
 		api_rpi_gpio(GPIO_PIN_BOARD[int(req.POST['gpio_pin'])])
+		if (GPIO_PIN_BOARD[int(req.POST['gpio_pin'])] == 4) :
+			flags.isRunning = False
+			api_rpi_gpio(2)
+			flags.isRunning = False
+			api_rpi_gpio(3)
+		else :
+			flags.isRunning = False
+			api_rpi_gpio(22)
+			flags.isRunning = False
+			api_rpi_gpio(27)
+			
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
 		history = History(user=user, meal=meal)
