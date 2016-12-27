@@ -24,17 +24,7 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 def index(req) :
 	if (req.method == 'POST' and req.POST.get('gpio_pin') and not flags.isRunning) :
 		api_rpi_gpio(GPIO_PIN_BOARD[int(req.POST['gpio_pin'])])
-		if (GPIO_PIN_BOARD[int(req.POST['gpio_pin'])] == 4) :
-			flags.isRunning = False
-			api_rpi_gpio(2)
-			flags.isRunning = False
-			api_rpi_gpio(3)
-		else :
-			flags.isRunning = False
-			api_rpi_gpio(22)
-			flags.isRunning = False
-			api_rpi_gpio(27)
-
+		
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
 		history = History(user=user, meal=meal)
@@ -102,6 +92,12 @@ def api_rpi_gpio(pin):
 		os.system("echo '{0}' > /sys/class/gpio/export".format(pin))
 		os.system("echo '5' > /sys/class/gpio/export")
 		os.system("echo '6' > /sys/class/gpio/export")
+		if (pin == 4) :
+			os.system("echo '2' > /sys/class/gpio/export")
+			os.system("echo '3' > /sys/class/gpio/export")
+		else :
+			os.system("echo '22' > /sys/class/gpio/export")
+			os.system("echo '27' > /sys/class/gpio/export")
 		#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
 		os.system("echo 'out' > /sys/class/gpio/gpio{0}/direction".format(pin))
 		os.system("echo '1' > /sys/class/gpio/gpio{0}/value".format(pin))
@@ -109,10 +105,34 @@ def api_rpi_gpio(pin):
 		os.system("echo '0' > /sys/class/gpio/gpio5/value")
 		os.system("echo 'out' > /sys/class/gpio/gpio6/direction")
 		os.system("echo '1' > /sys/class/gpio/gpio6/value")
+		if (pin == 4) :
+			os.system("echo 'out' > /sys/class/gpio/gpio2/direction")
+			os.system("echo 'out' > /sys/class/gpio/gpio3/direction")
+			os.system("echo '1' > /sys/class/gpio/gpio2/value")
+			os.system("echo '1' > /sys/class/gpio/gpio3/value")
+		else :
+			os.system("echo 'out' > /sys/class/gpio/gpio22/direction")
+			os.system("echo 'out' > /sys/class/gpio/gpio27/direction")
+			os.system("echo '1' > /sys/class/gpio/gpio22/value")
+			os.system("echo '1' > /sys/class/gpio/gpio27/value")
 		time.sleep(3)
 		os.system("echo '0' > /sys/class/gpio/gpio6/value")
 		os.system("echo '1' > /sys/class/gpio/gpio5/value")
 		os.system("echo '0' > /sys/class/gpio/gpio{0}/value".format(pin))
 		os.system("echo 'in' > /sys/class/gpio/gpio{0}/direction".format(pin))
 		os.system("echo '{0}' > /sys/class/gpio/unexport".format(pin))
+		if (pin == 4) :
+			os.system("echo 'in' > /sys/class/gpio/gpio2/direction")
+			os.system("echo 'in' > /sys/class/gpio/gpio3/direction")
+			os.system("echo '0' > /sys/class/gpio/gpio2/value")
+			os.system("echo '0' > /sys/class/gpio/gpio3/value")
+			os.system("echo '2' > /sys/class/gpio/unexport")
+			os.system("echo '3' > /sys/class/gpio/unexport")
+		else :
+			os.system("echo 'in' > /sys/class/gpio/gpio22/direction")
+			os.system("echo 'in' > /sys/class/gpio/gpio27/direction")
+			os.system("echo '0' > /sys/class/gpio/gpio22/value")
+			os.system("echo '0' > /sys/class/gpio/gpio27/value")
+			os.system("echo '22' > /sys/class/gpio/unexport")
+			os.system("echo '27' > /sys/class/gpio/unexport")
 		flags.isRunning = False
