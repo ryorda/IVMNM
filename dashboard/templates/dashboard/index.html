@@ -110,6 +110,7 @@
                                 <div class="header">
                                     <h4 class="title">Today's Menu</h4>
                                     <p class="category">The list of nutritionous snacks</p>
+                                    <p class="category">You've used {{ cal_taken }} out of the allowed 400 calories today.</h5>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +137,16 @@
                         {% if forloop.counter|divisibleby:3 %}
                     </div>
                     <div class="row ">
-                        {% endif %} {% endfor %} {% endif %}
+                        {% endif %} {% endfor %}
+                        {% else %}
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title">You've had enough for the day.</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
