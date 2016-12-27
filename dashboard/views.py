@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import History, Meal
+from . import flags
+
 import django.contrib.auth as auth
 #import RPi.GPIO as GPIO
 import datetime
@@ -63,19 +65,22 @@ def api_rpi_gpio(pin):
 
 	#GPIO.cleanup()
 	#########################################################
-	os.system("echo '{0}' > /sys/class/gpio/export".format(pin))
-	os.system("echo '5' > /sys/class/gpio/export")
-	os.system("echo '6' > /sys/class/gpio/export")
-	#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
-	os.system("echo 'out' > /sys/class/gpio/gpio{0}/direction".format(pin))
-	os.system("echo '1' > /sys/class/gpio/gpio{0}/value".format(pin))
-	os.system("echo 'out' > /sys/class/gpio/gpio5/direction")
-	os.system("echo '0' > /sys/class/gpio/gpio5/value")
-	os.system("echo 'out' > /sys/class/gpio/gpio6/direction")
-	os.system("echo '1' > /sys/class/gpio/gpio6/value")
-	time.sleep(3)
-	os.system("echo '0' > /sys/class/gpio/gpio6/value")
-	os.system("echo '1' > /sys/class/gpio/gpio5/value")
-	os.system("echo '0' > /sys/class/gpio/gpio{0}/value".format(pin))
-	os.system("echo 'in' > /sys/class/gpio/gpio{0}/direction".format(pin))
-	os.system("echo '{0}' > /sys/class/gpio/unexport".format(pin))
+	if (not flags.isRunning) :
+		flags.isRunning = True
+		os.system("echo '{0}' > /sys/class/gpio/export".format(pin))
+		os.system("echo '5' > /sys/class/gpio/export")
+		os.system("echo '6' > /sys/class/gpio/export")
+		#Setup pin for dynamo, GPIO5 for LED Green, GPIO6 for LED Red
+		os.system("echo 'out' > /sys/class/gpio/gpio{0}/direction".format(pin))
+		os.system("echo '1' > /sys/class/gpio/gpio{0}/value".format(pin))
+		os.system("echo 'out' > /sys/class/gpio/gpio5/direction")
+		os.system("echo '0' > /sys/class/gpio/gpio5/value")
+		os.system("echo 'out' > /sys/class/gpio/gpio6/direction")
+		os.system("echo '1' > /sys/class/gpio/gpio6/value")
+		time.sleep(3)
+		os.system("echo '0' > /sys/class/gpio/gpio6/value")
+		os.system("echo '1' > /sys/class/gpio/gpio5/value")
+		os.system("echo '0' > /sys/class/gpio/gpio{0}/value".format(pin))
+		os.system("echo 'in' > /sys/class/gpio/gpio{0}/direction".format(pin))
+		os.system("echo '{0}' > /sys/class/gpio/unexport".format(pin))
+		flags.isRunning = False
