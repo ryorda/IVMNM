@@ -22,7 +22,7 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 
 @login_required(login_url='/login')
 def index(req) :
-	if (req.method == 'POST' and req.POST.get('gpio_pin')) :
+	if (req.method == 'POST' and req.POST.get('gpio_pin') and not flags.isRunning) :
 		api_rpi_gpio(GPIO_PIN_BOARD[int(req.POST['gpio_pin'])])
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
