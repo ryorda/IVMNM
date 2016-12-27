@@ -34,3 +34,8 @@
     padding-bottom: 20px;
     padding-right: 16px;
 }
+
+.card-meals-button .btn-primary.btn-fill.btn-pick-dis {
+    background-color: #707070 !important;
+    border-color: #707070;
+}

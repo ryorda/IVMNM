@@ -124,6 +124,7 @@
                                     <h3>{{ meal.name }}</h3>
                                     <h5>{{ meal.calorie }} calories</h5>
                                 </div>
+                                {% if meal.calorie <= cal_left %}
                                 <div class="card-meals-button">
                                     <form action="" method="POST"> {% csrf_token %}
                                         <input type="hidden" name="user_id" value="{{ user.id }}" />
@@ -132,6 +133,13 @@
                                         <button type="submit" class="btn btn-primary btn-sm btn-fill btn-pick">PICK</button>
                                     </form>
                                 </div>
+                                {% else %}
+                                <div class="card-meals-button">
+                                    <form action="">
+                                        <button disabled type="submit" class="btn btn-primary btn-sm btn-fill btn-pick-dis">PICK</button>
+                                    </form>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         {% if forloop.counter|divisibleby:3 %}

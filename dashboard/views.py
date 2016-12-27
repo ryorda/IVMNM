@@ -24,7 +24,7 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 def index(req) :
 	if (req.method == 'POST' and req.POST.get('gpio_pin') and not flags.isRunning) :
 		api_rpi_gpio(GPIO_PIN_BOARD[int(req.POST['gpio_pin'])])
-		
+
 		user = User.objects.get(pk=req.POST['user_id'])
 		meal = Meal.objects.get(pk=req.POST['meal_id'])
 		history = History(user=user, meal=meal)
@@ -39,7 +39,8 @@ def index(req) :
 		cal_taken += u.meal.calorie
 
 	cal_left = 400 - cal_taken
-	list_of_meal = Meal.objects.filter(calorie__lt=cal_left).order_by('id')[::1]
+	# list_of_meal = Meal.objects.filter(calorie__lt=cal_left).order_by('id')[::1]
+	list_of_meal = Meal.objects.order_by('id')[::1]
 	context = {'list_of_meal': list_of_meal, 'cal_left': cal_left, 'cal_taken': cal_taken}
 	return render(req, 'dashboard/index.html', context)
 
